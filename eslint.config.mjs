@@ -9,7 +9,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json', // если нужна поддержка правил, зависящих от типов
+        project: './tsconfig.eslint.json',
       },
     },
     plugins: {

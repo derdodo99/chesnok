@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*", "common/**/*", "migrations/**/*", "mikro-orm.config.ts", "test/**/*"]
+}

@@ -22,5 +22,5 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*", "common/**/*", "migrations/**/*", "mikro-orm.config.ts"]
+  "include": ["src/**/*", "common/**/*", "migrations/**/*", "mikro-orm.config.ts", "test/**/*"]
 }
