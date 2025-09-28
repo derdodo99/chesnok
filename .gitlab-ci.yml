@@ -1,8 +1,10 @@
-stages: [check]
+stages:
+  - check
 
 ping:
   stage: check
   script:
     - echo "Runner OK on $(hostname)"
     - node -v
-    - pnpm -v || (corepack enable && pnpm -v)
+    - corepack enable
+    - pnpm -v || npm -v

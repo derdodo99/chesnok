@@ -11,10 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: 'pnpm' }
-      - run: corepack enable
-      - run: pnpm install --frozen-lockfile
+        with:
+          node-version: 22
+          # убрали cache: 'pnpm'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - run: pnpm install --frozen-lockfile --store-dir ~/.pnpm-store
       - run: pnpm run lint
 
   test:
@@ -22,9 +36,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: 'pnpm' }
-      - run: corepack enable
-      - run: pnpm install --frozen-lockfile
+        with: { node-version: 22 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9, run_install: false }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+      - run: pnpm install --frozen-lockfile --store-dir ~/.pnpm-store
       - run: pnpm run test:cov
 
   build:
@@ -32,7 +52,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: 'pnpm' }
-      - run: corepack enable
-      - run: pnpm install --frozen-lockfile
+        with: { node-version: 22 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9, run_install: false }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+      - run: pnpm install --frozen-lockfile --store-dir ~/.pnpm-store
       - run: pnpm run build
