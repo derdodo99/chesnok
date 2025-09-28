@@ -4,13 +4,11 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { EntityManager, LockMode } from '@mikro-orm/postgresql';
-import { User } from '../../entities/user.entity';
-import { Transaction } from '../../entities/transaction.entity';
-import { AmountType } from './constants/amount-type.enum';
-import { CreditOptions } from './types/credit-options.type';
-import { TransactionsService } from '../transactions/transactions.service';
-import { UsersService } from '../users/users.service';
-import { WalletsRepository } from './repository/wallets.repository';
+import { UsersService } from '../users/users.service.js';
+import { WalletsRepository } from './repository/wallets.repository.js';
+import { TransactionsService } from '../transactions/transactions.service.js';
+import { CreditOptions } from './types/credit-options.type.js';
+import { AmountType } from './constants/amount-type.enum.js';
 
 @Injectable()
 export class WalletsService {
@@ -37,7 +35,7 @@ export class WalletsService {
 
   async balanceByUserId(userId: number) {
     return this.em.transactional(async (em) => {
-      const user = await em.findOne(User, { id: userId });
+      const user = await this.usersService.findById(userId);
       if (!user) throw new NotFoundException('user not found');
       const wallet = await this.walletRepository.findByUser(user);
       return { balance: wallet?.balanceCrystals ?? 0 };
@@ -54,7 +52,7 @@ export class WalletsService {
     if (amount <= 0) throw new BadRequestException('amount must be > 0');
 
     return this.em.transactional(async (em) => {
-      const user = await em.findOne(User, { id: userId });
+      const user = await this.usersService.findById(userId);
       if (!user) throw new NotFoundException('user not found');
 
       let wallet = await this.walletRepository.findByUser(user);
@@ -116,7 +114,7 @@ export class WalletsService {
       }
 
       if (correlationId) {
-        const exists = await em.findOne(Transaction, { correlationId });
+        const exists = await this.transactionsService.getByCorrelationId( correlationId);
         if (exists) {
           return {
             balance: wallet.balanceCrystals,

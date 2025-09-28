@@ -7,9 +7,9 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { WalletsService } from './wallets.service';
-import { AmountDto } from './dto/amount.dto';
-import { AmountType } from './constants/amount-type.enum';
+import { WalletsService } from './wallets.service.js';
+import { AmountDto } from './dto/amount.dto.js';
+
 
 @Controller('debug/wallet')
 export class WalletsController {

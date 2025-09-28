@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { Wallet } from '../../../entities/wallet.entity';
-import { User } from '../../../entities/user.entity';
+import { Wallet } from '../../../entities/wallet.entity.js';
+import { User } from '../../../entities/user.entity.js';
 
 @Injectable()
 export class WalletsRepository {

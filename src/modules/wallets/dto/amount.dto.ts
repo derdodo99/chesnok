@@ -7,7 +7,8 @@ import {
   Length,
   IsEnum,
 } from 'class-validator';
-import { AMOUNT_TYPES, AmountType } from '../constants/amount-type.enum';
+import { AMOUNT_TYPES, AmountType } from '../constants/amount-type.enum.js';
+
 
 export class AmountDto {
   @IsInt()
